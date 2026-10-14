@@ -1,0 +1,7 @@
+# Dataset lama tetap utuh; protokol pilot sama dengan Phase 4.
+extends: phase4_baseline_15e.yaml
+data: plantdoc_data.yaml
+experiment:
+  name: baseline_pilot15_seed0
+  project: runs/phase4_legacy
+  description: YOLO26n baseline pada dataset lama 28 kelas, pilot 15 epoch

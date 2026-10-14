@@ -1,0 +1,38 @@
+# Konfigurasi Dataset PlantDoc untuk YOLO
+# Universitas Brawijaya - FILKOM - Teknik Komputer
+
+path: ./dataset  # Direktori basis dataset relatif terhadap direktori kerja proyek
+train: train/images
+val: valid/images
+test: test/images
+
+nc: 28
+names:
+  0: Apple Scab Leaf
+  1: Apple leaf
+  2: Apple rust leaf
+  3: Bell_pepper leaf spot
+  4: Bell_pepper leaf
+  5: Blueberry leaf
+  6: Cherry leaf
+  7: Corn Gray leaf spot
+  8: Corn leaf blight
+  9: Corn rust leaf
+  10: Peach leaf
+  11: Potato leaf early blight
+  12: Potato leaf late blight
+  13: Potato leaf
+  14: Raspberry leaf
+  15: Soybean leaf
+  16: Squash Powdery mildew leaf
+  17: Strawberry leaf
+  18: Tomato Early blight leaf
+  19: Tomato Septoria leaf spot
+  20: Tomato leaf bacterial spot
+  21: Tomato leaf late blight
+  22: Tomato leaf mosaic virus
+  23: Tomato leaf yellow virus
+  24: Tomato leaf
+  25: Tomato mold leaf
+  26: grape leaf black rot
+  27: grape leaf

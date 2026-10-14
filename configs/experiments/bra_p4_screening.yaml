@@ -1,0 +1,9 @@
+extends: bra_p4.yaml
+experiment:
+  name: bra_p4_screening5_seed0
+  project: runs/phase3
+  description: Five epochs to check loss gate and GPU memory stability
+train:
+  epochs: 5
+  patience: 5
+  close_mosaic: 0

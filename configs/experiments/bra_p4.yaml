@@ -1,0 +1,74 @@
+# Phase 2 integration config. Training is run explicitly in Phase 3.
+# Same initial COCO weights and recipe as baseline, not the 15-epoch checkpoint.
+experiment:
+  name: yolo26n_bra_p4_seed0
+  project: runs/attention
+  description: YOLO26n BRA-P4 PlantDoc dataset lama
+model: yolo26n.pt
+data: plantdoc_data.yaml
+attention:
+  layer: 19
+  dim: 128
+  qk_dim: 32
+  num_heads: 4
+  n_win: 4
+  topk: 4
+  side_dwconv: 3
+  attn_drop: 0.0
+  gamma_init: 0.0
+train:
+  epochs: 50
+  batch: 16
+  imgsz: 640
+  device: "0"
+  workers: 2
+  patience: 15
+  seed: 0
+  deterministic: true
+  pretrained: true
+  optimizer: AdamW
+  amp: true
+  cache: false
+  save: true
+  plots: true
+  verbose: true
+  exist_ok: false
+  lr0: 0.000313
+  lrf: 0.01
+  momentum: 0.9
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.0
+  cos_lr: false
+  close_mosaic: 10
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 0.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  mosaic: 1.0
+  mixup: 0.0
+  cutmix: 0.0
+  copy_paste: 0.0
+  auto_augment: randaugment
+  erasing: 0.4
+evaluation:
+  split: val
+  batch: 16
+  imgsz: 640
+  device: "0"
+  plots: true
+  nms: null
+profiling:
+  device: "0"
+  imgsz: 640
+  batch: 1
+  warmup: 20
+  iterations: 100
+  fp16: true

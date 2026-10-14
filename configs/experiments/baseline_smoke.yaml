@@ -1,0 +1,43 @@
+# Smoke test pipeline Fase 0. Bukan hasil eksperimen final.
+
+experiment:
+  name: yolo26n_baseline_smoke_legacy
+  project: runs/smoke
+  description: Sanity check satu epoch untuk pipeline baseline baru
+
+model: yolo26n.pt
+data: plantdoc_data.yaml
+
+train:
+  epochs: 1
+  batch: 16
+  imgsz: 640
+  device: "0"
+  workers: 2
+  patience: 1
+  seed: 0
+  deterministic: true
+  pretrained: true
+  optimizer: auto
+  amp: true
+  cache: false
+  save: true
+  plots: true
+  verbose: true
+  exist_ok: false
+  close_mosaic: 0
+
+evaluation:
+  split: val
+  batch: 16
+  imgsz: 640
+  device: "0"
+  plots: true
+
+profiling:
+  device: "0"
+  imgsz: 640
+  batch: 1
+  warmup: 10
+  iterations: 30
+  fp16: true

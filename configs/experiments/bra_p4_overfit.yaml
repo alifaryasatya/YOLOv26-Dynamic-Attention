@@ -1,0 +1,28 @@
+# Diagnostic memorization check. Train and val deliberately use the same 12 images.
+extends: bra_p4.yaml
+experiment:
+  name: bra_p4_overfit12_seed0
+  project: runs/phase3
+  description: Overfit 12 train images; diagnostic metrics only
+data: artifacts/phase3_legacy/overfit/data.yaml
+train:
+  epochs: 50
+  batch: 4
+  workers: 0
+  patience: 50
+  lr0: 0.001
+  lrf: 1.0
+  weight_decay: 0.0
+  warmup_epochs: 0.0
+  close_mosaic: 0
+  hsv_h: 0.0
+  hsv_s: 0.0
+  hsv_v: 0.0
+  translate: 0.0
+  scale: 0.0
+  fliplr: 0.0
+  mosaic: 0.0
+  erasing: 0.0
+  auto_augment: null
+evaluation:
+  batch: 4

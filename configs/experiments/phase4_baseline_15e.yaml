@@ -1,0 +1,10 @@
+# Shared screening protocol; all Phase 4 candidates inherit this file.
+extends: baseline.yaml
+experiment:
+  name: baseline_pilot15_seed0
+  project: runs/phase4_legacy
+  description: Baseline pilot with a complete 15-epoch scheduler
+train:
+  epochs: 15
+  patience: 15
+  close_mosaic: 5

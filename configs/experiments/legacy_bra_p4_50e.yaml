@@ -1,0 +1,15 @@
+extends: legacy_baseline_50e.yaml
+experiment:
+  name: bra_p4_50e_seed0
+  description: Dynamic Attention BRA-P4 dataset lama, matched baseline 50 epoch
+attention:
+  kind: bra
+  layer: 19
+  dim: 128
+  qk_dim: 32
+  num_heads: 4
+  n_win: 4
+  topk: 4
+  side_dwconv: 3
+  attn_drop: 0.0
+  gamma_init: 0.0

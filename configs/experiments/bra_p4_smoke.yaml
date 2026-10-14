@@ -1,0 +1,9 @@
+extends: bra_p4.yaml
+experiment:
+  name: bra_p4_smoke1_seed0
+  project: runs/phase3
+  description: One epoch to check dataloader AMP checkpoint and gate
+train:
+  epochs: 1
+  patience: 1
+  close_mosaic: 0

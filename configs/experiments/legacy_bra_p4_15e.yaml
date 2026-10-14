@@ -1,0 +1,15 @@
+extends: legacy_baseline_15e.yaml
+experiment:
+  name: bra_p4_pilot15_seed0
+  description: BRA-P4 pada dataset lama, protokol identik dengan baseline legacy
+attention:
+  kind: bra
+  layer: 19
+  dim: 128
+  qk_dim: 32
+  num_heads: 4
+  n_win: 4
+  topk: 4
+  side_dwconv: 3
+  attn_drop: 0.0
+  gamma_init: 0.0

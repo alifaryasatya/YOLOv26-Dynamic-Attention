@@ -1,0 +1,75 @@
+# Protokol baseline yang dibekukan untuk eksperimen Dynamic Attention.
+# Semua kandidat attention harus memakai parameter yang sama kecuali bagian model.
+
+experiment:
+  name: yolo26n_baseline_seed0
+  project: runs/baseline
+  description: YOLO26n baseline PlantDoc 28 kelas sebelum Dynamic Attention
+
+model: yolo26n.pt
+data: plantdoc_data.yaml
+
+train:
+  epochs: 50
+  batch: 16
+  imgsz: 640
+  device: "0"
+  workers: 2
+  patience: 15
+  seed: 0
+  deterministic: true
+  pretrained: true
+  # Dipin agar baseline dan model attention memakai optimizer identik.
+  # Nilai ini setara pilihan `optimizer=auto` untuk 28 kelas dan <10.000 iterasi.
+  optimizer: AdamW
+  amp: true
+  cache: false
+  save: true
+  plots: true
+  verbose: true
+  exist_ok: false
+
+  # Optimizer/training recipe. Nilai ini mengikuti baseline historis.
+  lr0: 0.000313
+  lrf: 0.01
+  momentum: 0.9
+  weight_decay: 0.0005
+  warmup_epochs: 3.0
+  warmup_momentum: 0.8
+  warmup_bias_lr: 0.0
+  cos_lr: false
+  close_mosaic: 10
+
+  # Augmentasi dibekukan untuk komparasi yang adil.
+  hsv_h: 0.015
+  hsv_s: 0.7
+  hsv_v: 0.4
+  degrees: 0.0
+  translate: 0.1
+  scale: 0.5
+  shear: 0.0
+  perspective: 0.0
+  flipud: 0.0
+  fliplr: 0.5
+  mosaic: 1.0
+  mixup: 0.0
+  cutmix: 0.0
+  copy_paste: 0.0
+  auto_augment: randaugment
+  erasing: 0.4
+
+evaluation:
+  split: val
+  batch: 16
+  imgsz: 640
+  device: "0"
+  plots: true
+  nms: null
+
+profiling:
+  device: "0"
+  imgsz: 640
+  batch: 1
+  warmup: 20
+  iterations: 100
+  fp16: true

@@ -1,0 +1,10 @@
+extends: legacy_baseline_15e.yaml
+experiment:
+  name: baseline_50e_seed0
+  project: runs/phase4_legacy_50e
+  description: Baseline dataset lama 28 kelas dengan scheduler penuh 50 epoch
+train:
+  epochs: 50
+  # Nonaktifkan early stopping agar kedua model menyelesaikan 50 epoch.
+  patience: 0
+  close_mosaic: 10

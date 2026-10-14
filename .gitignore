@@ -1,0 +1,45 @@
+# Dataset lokal dan sumber dataset (jangan diunggah)
+/dataset/
+/dataset_*/
+/sources/
+*.rar
+*.zip
+*.7z
+*.tar
+*.tar.gz
+
+# Environment Python, dependency, dan cache
+/.venv/
+/venv/
+/env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# Checkpoint dan output eksperimen lokal
+/runs/
+/artifacts/
+*.pt
+*.pth
+*.onnx
+*.engine
+*.cache
+*.log
+
+# Secret/config lokal dan metadata IDE
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+/.aws/
+/.codex/
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store

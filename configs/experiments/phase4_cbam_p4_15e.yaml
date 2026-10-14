@@ -1,0 +1,11 @@
+extends: phase4_baseline_15e.yaml
+experiment:
+  name: cbam_p4_pilot15_seed0
+  description: CBAM-P4 channel/spatial control matched to baseline and BRA
+attention:
+  kind: cbam
+  layer: 19
+  dim: 128
+  reduction_ratio: 16
+  spatial_kernel: 7
+  gamma_init: 0.0
