@@ -30,7 +30,7 @@ class LegacyDatasetTests(unittest.TestCase):
         for label, config in (("baseline", baseline), ("bra_p4", bra)):
             self.assertEqual(config["experiment"]["project"], suite["run_root"])
             self.assertEqual(config["experiment"]["name"], suite["models"][label])
-        data = {k: v for k, v in manifests().items() if k != "cbam_p4"}
+        data = manifests()
         for manifest in data.values():
             manifest.update(completed_epochs=50, configured_epochs=50)
             manifest["train_arguments"]["epochs"] = 50
@@ -57,7 +57,7 @@ class LegacyDatasetTests(unittest.TestCase):
         self.assertEqual(suite_settings()["run_root"], "runs/phase4_legacy_50e")
 
     def test_content_provenance_replaces_missing_source_manifest(self):
-        data = {k: v for k, v in manifests().items() if k != "cbam_p4"}
+        data = manifests()
         for manifest in data.values():
             manifest["dataset_manifest_sha256"] = None
             manifest["dataset_content_sha256"] = "same files"
@@ -94,7 +94,7 @@ class LegacyDatasetTests(unittest.TestCase):
             (root / "train/images/a.jpg").rename(root / "train/images/b.jpg")
             self.assertNotEqual(original, dataset_content_sha256(yaml))
 
-    def test_two_model_report_does_not_require_cbam(self):
+    def test_two_model_baseline_bra_report(self):
         suite = suite_settings("legacy", 15)
         fixtures = records()
         matched = {label: {"best_checkpoint_sha256": "best", "data_sha256": "data"}
@@ -115,7 +115,6 @@ class LegacyDatasetTests(unittest.TestCase):
                 inspect.assert_called_once_with(runs, data=suite["data"], models=suite["models"], epochs=15)
             self.assertTrue((output / "COMPARISON.md").is_file())
             self.assertIn("bra_p4_delta", (output / "per_class_comparison.csv").read_text())
-            self.assertNotIn("cbam", (output / "comparison.csv").read_text())
 
 
 if __name__ == "__main__":

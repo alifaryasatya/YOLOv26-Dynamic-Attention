@@ -11,7 +11,6 @@ from ultralytics.nn.modules.block import AAttn, Attention
 from ultralytics.utils.torch_utils import _attention_ops, get_flops
 
 from ..modules.bra import BiLevelRoutingAttention
-from ..modules.cbam_adapter import CBAM
 from ..modules.residual_attention import ChannelLayerNorm
 
 
@@ -32,11 +31,6 @@ def _norm_ops(module, inputs, output) -> None:
     module.total_ops += 5 * inputs[0].numel()
 
 
-def _cbam_ops(module, inputs, output) -> None:
-    # Functional channel/spatial rescaling; MLP/spatial convs have child hooks.
-    module.total_ops += 2 * inputs[0].numel()
-
-
 def model_gflops(network, imgsz: int = 640) -> float:
     """Estimate at full image size; no stride proxy for spatial attention.
 
@@ -44,7 +38,7 @@ def model_gflops(network, imgsz: int = 640) -> float:
     local convolution, and approximate normalization. Softmax, top-k, gather,
     masks, and memory traffic are excluded; this is not a latency estimate.
     """
-    if not any(isinstance(module, (BiLevelRoutingAttention, CBAM)) for module in network.modules()):
+    if not any(isinstance(module, BiLevelRoutingAttention) for module in network.modules()):
         return get_flops(network, imgsz)
     model = deepcopy(network).float().eval()
     reference = next(model.parameters())
@@ -52,7 +46,6 @@ def model_gflops(network, imgsz: int = 640) -> float:
     with torch.no_grad():
         macs, _ = thop.profile(model, inputs=(sample,), verbose=False,
                               custom_ops={BiLevelRoutingAttention: _bra_ops,
-                                          CBAM: _cbam_ops,
                                           ChannelLayerNorm: _norm_ops,
                                           Attention: _attention_ops, AAttn: _attention_ops})
     return 2 * macs / 1e9

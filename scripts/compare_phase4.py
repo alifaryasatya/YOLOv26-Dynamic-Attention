@@ -18,7 +18,6 @@ from common import dataset_content_sha256, load_yaml, resolve_path, sha256_file,
 MODELS = {
     "baseline": "baseline_pilot15_seed0",
     "bra_p4": "bra_p4_pilot15_seed0",
-    "cbam_p4": "cbam_p4_pilot15_seed0",
 }
 
 
@@ -37,7 +36,7 @@ def suite_settings(dataset: str = "legacy", epochs: int = 50) -> dict:
         }
     return {
         "data": "plantdoc_data.yaml",
-        "models": {k: v for k, v in MODELS.items() if k != "cbam_p4"},
+        "models": MODELS.copy(),
         "run_root": "runs/phase4_legacy",
         "artifact_root": "artifacts/phase4_legacy",
         "tag": "phase4_legacy",

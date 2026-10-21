@@ -9,7 +9,7 @@ from torch import Tensor, nn
 from ultralytics.models.yolo.detect import DetectionTrainer
 from ultralytics.nn.modules import C3k2, Detect
 
-from ..modules import ResidualAttention, ResidualCBAM
+from ..modules import ResidualAttention
 
 
 @dataclass(frozen=True)
@@ -25,40 +25,25 @@ class BRAConfig:
     gamma_init: float = 0.0
 
 
-@dataclass(frozen=True)
-class CBAMConfig:
-    kind: str = "cbam"
-    layer: int = 19
-    dim: int = 128
-    reduction_ratio: int = 16
-    spatial_kernel: int = 7
-    gamma_init: float = 0.0
-
-
-def parse_attention_config(config=None) -> BRAConfig | CBAMConfig:
-    if isinstance(config, (BRAConfig, CBAMConfig)):
-        if isinstance(config, CBAMConfig) and config.kind != "cbam":
-            raise ValueError("CBAMConfig.kind must be cbam")
+def parse_attention_config(config=None) -> BRAConfig:
+    if isinstance(config, BRAConfig):
         return config
     values = dict(config or {})
     kind = values.pop("kind", "bra")
-    if kind == "bra":
-        return BRAConfig(**values)
-    if kind == "cbam":
-        return CBAMConfig(**values)
-    raise ValueError(f"Unknown attention kind: {kind}")
+    if kind != "bra":
+        raise ValueError(f"Unsupported attention kind: {kind}; this project uses BRA")
+    return BRAConfig(**values)
 
 
 class P4AttentionWrapper(nn.Module):
     """Execute original P4 layer, then residual attention, retaining graph metadata."""
 
-    def __init__(self, original: nn.Module, config: BRAConfig | CBAMConfig) -> None:
+    def __init__(self, original: nn.Module, config: BRAConfig) -> None:
         super().__init__()
         self.original = original
         kwargs = asdict(config)
         kwargs.pop("layer")
-        kwargs.pop("kind", None)
-        self.residual = ResidualCBAM(**kwargs) if isinstance(config, CBAMConfig) else ResidualAttention(**kwargs)
+        self.residual = ResidualAttention(**kwargs)
         self.config = asdict(config)
         self.i, self.f = original.i, deepcopy(original.f)
         self.type = "plantdoc_attention.P4AttentionWrapper"

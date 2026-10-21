@@ -25,7 +25,7 @@ Pada evaluasi FP32 yang konsisten, mAP50-95 baseline 36,19% dan BRA 35,52%. Hasi
 - `scripts/train.py`, `evaluate.py`, `benchmark_model.py`: training, evaluasi dan profiling.
 - `scripts/diagnose_legacy_evaluation.py`: kontrol precision/fusion/NMS.
 
-Kode CBAM tetap tersedia sebagai kontrol attention opsional. Seluruh skrip/config aktif menggunakan dataset lama.
+Eksperimen attention yang dipertahankan di repository ini adalah BRA-P4. Seluruh skrip/config aktif menggunakan dataset lama.
 
 ## Training 50 epoch
 

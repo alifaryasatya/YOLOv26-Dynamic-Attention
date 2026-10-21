@@ -18,8 +18,8 @@ def manifests():
         "data_sha256": "yaml", "implementation_sha256": {"module.py": "hash"},
         "environment": {"packages": {"torch": "pinned"}, "python": "pinned"}, "attention": None,
     }
-    result = {label: deepcopy(base) for label in ("baseline", "bra_p4", "cbam_p4")}
-    for label in ("bra_p4", "cbam_p4"):
+    result = {label: deepcopy(base) for label in ("baseline", "bra_p4")}
+    for label in ("bra_p4",):
         result[label]["attention"] = {"kind": label.replace("_p4", ""), "layer": 19}
         result[label]["train_arguments"]["name"] = label
     return result
@@ -36,7 +36,7 @@ def records():
                     "gflops": 5.0, "forward_latency_ms": {"mean_per_image": 10.0},
                     "peak_memory_mb": {"allocated": 50}},
     }
-    result = {label: deepcopy(base) for label in ("baseline", "bra_p4", "cbam_p4")}
+    result = {label: deepcopy(base) for label in ("baseline", "bra_p4")}
     result["bra_p4"]["evaluation"]["metrics"]["map50_95"] = .32
     result["bra_p4"]["profile"]["parameters"] = 1100
     result["bra_p4"]["profile"]["forward_latency_ms"]["mean_per_image"] = 12.0
@@ -44,7 +44,7 @@ def records():
 
 
 class ComparisonTests(unittest.TestCase):
-    def test_matches_three_recipes(self):
+    def test_matches_baseline_and_bra_recipes(self):
         validate_protocol(manifests())
 
     def test_rejects_interim_scheduler_batch_source_and_code_mismatch(self):
@@ -55,7 +55,7 @@ class ComparisonTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 validate_protocol(data)
         data = manifests()
-        data["cbam_p4"]["train_arguments"]["batch"] = 8
+        data["bra_p4"]["train_arguments"]["batch"] = 8
         with self.assertRaises(ValueError):
             validate_protocol(data)
 
@@ -70,11 +70,11 @@ class ComparisonTests(unittest.TestCase):
         for change in ("test", "weights", "dtype"):
             data = records()
             if change == "test":
-                data["cbam_p4"]["evaluation"]["split"] = "test"
+                data["bra_p4"]["evaluation"]["split"] = "test"
             elif change == "weights":
-                data["cbam_p4"]["profile"]["model_sha256"] = "wrong"
+                data["bra_p4"]["profile"]["model_sha256"] = "wrong"
             else:
-                data["cbam_p4"]["profile"]["dtype"] = "float32"
+                data["bra_p4"]["profile"]["dtype"] = "float32"
             with self.assertRaises(ValueError):
                 compare_records(data)
 

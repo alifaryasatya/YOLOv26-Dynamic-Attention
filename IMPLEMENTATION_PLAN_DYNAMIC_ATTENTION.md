@@ -163,10 +163,6 @@ Kriteria keberhasilan yang disarankan untuk dibekukan sebelum eksperimen:
 
 Ambang tersebut adalah target eksperimen, bukan jaminan hasil.
 
-### P1 — Siapkan static-attention control
-
-Tambahkan satu model kontrol menggunakan CBAM atau SE pada titik yang sama dengan BRA. Tujuannya adalah menjawab apakah peningkatan berasal dari sifat dinamis BRA atau sekadar tambahan parameter/attention umum.
-
 ## 4. Strategi integrasi kode
 
 ### Prinsip implementasi
@@ -185,7 +181,6 @@ src/
     ├── __init__.py
     ├── modules/
     │   ├── bra.py
-    │   ├── cbam_adapter.py
     │   └── residual_attention.py
     ├── integrations/
     │   └── yolo26.py
@@ -194,7 +189,6 @@ src/
 configs/
 └── experiments/
     ├── baseline.yaml
-    ├── cbam_p4.yaml
     ├── bra_p3.yaml
     ├── bra_p4.yaml
     ├── bra_p5.yaml
@@ -322,18 +316,17 @@ Exit criteria:
 
 Matriks minimum:
 
-| ID | Model          | Lokasi                   | Tujuan                   |
-| -- | -------------- | ------------------------ | ------------------------ |
-| A  | YOLO26n        | Tanpa attention tambahan | Baseline                 |
-| B  | YOLO26n + CBAM | P4                       | Static-attention control |
-| C  | YOLO26n + BRA  | P4                       | Kandidat utama           |
-| D  | YOLO26n + BRA  | P3                       | Uji lesi kecil           |
-| E  | YOLO26n + BRA  | P5                       | Uji konteks global       |
-| F  | YOLO26n + BRA  | P3+P4+P5                 | Uji multi-level          |
+| ID | Model         | Lokasi                   | Tujuan             |
+| -- | ------------- | ------------------------ | ------------------ |
+| A  | YOLO26n       | Tanpa attention tambahan | Baseline           |
+| B  | YOLO26n + BRA | P4                       | Kandidat utama     |
+| C  | YOLO26n + BRA | P3                       | Uji lesi kecil     |
+| D  | YOLO26n + BRA | P5                       | Uji konteks global |
+| E  | YOLO26n + BRA | P3+P4+P5                 | Uji multi-level    |
 
 Semua konfigurasi harus memakai split, seed, epoch, augmentasi, batch, image size, pretrained weights, dan kebijakan early stopping yang sama.
 
-Screening dapat memakai satu seed. Setelah kandidat dipilih dari validation, jalankan baseline, static control, dan kandidat final pada tiga seed.
+Screening dapat memakai satu seed. Setelah kandidat dipilih dari validation, jalankan baseline dan kandidat final pada tiga seed.
 
 ### Fase 5 — Evaluasi final
 
@@ -409,7 +402,7 @@ Penambahan Dynamic Attention dinyatakan selesai apabila:
 - Baseline dan seluruh kandidat dapat direproduksi dari config.
 - Unit test forward/backward/AMP/checkpoint lulus.
 - Tersedia bukti bahwa pretrained baseline dipertahankan sebelum fine-tuning.
-- Ablation baseline, static attention, dan BRA selesai dengan protokol yang sama.
+- Ablation baseline dan BRA selesai dengan protokol yang sama.
 - Metrik accuracy dan efisiensi dilaporkan bersama, termasuk hasil per kelas.
 - Kandidat final dievaluasi pada test hanya setelah desain dibekukan.
 - Kesimpulan menyatakan hasil aktual, termasuk bila Dynamic Attention tidak memberi peningkatan yang signifikan.

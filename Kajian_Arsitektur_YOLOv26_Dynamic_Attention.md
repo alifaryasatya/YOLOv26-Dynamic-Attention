@@ -161,11 +161,10 @@ Sebagai proyek akhir di Prodi Teknik Komputer, pengujian harus mencakup dua pila
 
 ### 5.1 Desain Uji Komparasi (*Ablation Study*)
 
-Rancang 3 konfigurasi model untuk membuktikan hipotesis secara empiris:
+Bandingkan konfigurasi model berikut untuk menguji hipotesis secara empiris:
 
 1. **Model A (Baseline):** YOLOv26 standar.
-2. **Model B (Static Attention):** YOLOv26 + CBAM atau SE-Attention (sebagai pembanding perhatian konvensional).
-3. **Model C (Proposed Model):** YOLOv26 + Dynamic Attention (BRA / DyHead).
+2. **Model B (Proposed Model):** YOLOv26 + Dynamic Attention (BRA).
 
 ### 5.2 Metrik Evaluasi Kunci
 
